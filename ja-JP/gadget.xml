@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gadget>
+  <name>VistaFace</name>
+  <namespace>
+    Misuzilla.Gadgets
+  </namespace>
+  <version>
+    1.2.0.0
+  </version>
+  <author name="Mayuki Sawatari">
+    <info url="http://www.misuzilla.org/dist/gadgets/vistaface/" text="VistaFace - Misuzilla.org"/>
+    <logo src="common/images/authorLogoIcon.png"/>
+  </author>
+  <copyright>
+    © 2007
+  </copyright>
+  <description>現在のコンピュータの状況を表情で伝えます。</description>
+  <icons>
+    <icon height="128" width="128" src="common/images/icon.png"/>
+  </icons>
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0.0" src="gadget.html"/>
+      <permissions>Full</permissions>
+      <platform minPlatformVersion="0.3"/>
+      <defaultImage src="common/images/icon.png"/>
+    </host>
+  </hosts>
+</gadget>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>VistaFace</title>
+    <link rel="stylesheet" type="text/css" href="common/css/vistaFace.css" />
+    <script type="text/javascript" src="common/js/JSONUtil.js"></script>
+    <script type="text/javascript" src="common/js/PlistXMLParser.js"></script>
+    <script type="text/javascript" src="common/js/messageBoxBridge.js"></script>
+    <script type="text/javascript" src="common/js/locale.js"></script>
+    <script type="text/javascript" src="common/js/vistaFace.js"></script>
+</head>
+
+<body
+    onload     ="VistaFace.main();"
+    ondragenter="VistaFace.onDragEnter();"
+    ondragover ="VistaFace.onDragOver();"
+    ondrop     ="VistaFace.onDrop();"
+>
+<div id="gadgetMainFrame">
+    <g:background id="partsBackground" />
+    
+    <div id="partsContainer">
+    </div>
+</div>
+</body>
+
+</html>
