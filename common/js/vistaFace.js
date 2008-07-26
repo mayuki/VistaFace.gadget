@@ -18,7 +18,17 @@ function _VistaFace() {
     
     this.isPowerLineStatusChanged = false;
     this.isWirelessStatusChanged = false;
-    
+
+    // cache settings
+    this._cache = {
+        imgObjs: [],
+        faceChanged : true,
+        cpuUsageIndex : -1,
+        memUsageIndex : -1,
+        marker1 : -1,
+        marker2 : -1
+    };
+
     // default settings
     this.settings = {
           timerInterval : 1000
@@ -167,6 +177,8 @@ _VistaFace.prototype = {
     , loadFaceDef : function (name) {
         this.debugPrint("loadFaceDef: "+name);
         this.faceDefDir = name;
+        this._cache.faceChanged = true;
+        this._cache.imgObjs = [];
         return this.loadFaceDefPlist(name);
     }
     
@@ -186,23 +198,48 @@ _VistaFace.prototype = {
     }
     
     , addPart : function (part) {
-         var imgObj = this.partsBackground.addImageObject(this.faceDefDir + "\\" + part.filename, part['pos x'], 0);
-         imgObj.top = 128 - part['pos y'] - imgObj.height;
+         var imgObj = this._cache.imgObjs[part.filename];
+         if (!imgObj) {
+             imgObj = this.partsBackground.addImageObject(this.faceDefDir + "\\" + part.filename, part['pos x'], 0);
+             imgObj.top = 128 - part['pos y'] - imgObj.height;
+             this._cache.imgObjs[part.filename] = imgObj;
+         }
+         imgObj.opacity = 100;
     }
     
     , switchPattern : function (cpuUsageIndex, memUsageIndex, marker1, marker2) {
-        this.partsBackground.removeObjects();
+        // compare cache
+        if (this._cache.cpuUsageIndex == cpuUsageIndex &&
+            this._cache.memUsageIndex == memUsageIndex &&
+            this._cache.marker1 == marker1 &&
+            this._cache.marker2 == marker2)
+        {
+            return;
+        }
+
+        // save cache
+        this._cache.cpuUsageIndex = cpuUsageIndex;
+        this._cache.memUsageIndex = memUsageIndex;
+        this._cache.marker1 = marker1;
+        this._cache.marker2 = marker2;
+
+        // hide all parts
+        for (var i in this._cache.imgObjs) {
+            this._cache.imgObjs[i].opacity = 0;
+        }
         
         for (var i = 0, n = this.currentFace.pattern[memUsageIndex][cpuUsageIndex].length; i < n; i++) {
             var partNum = this.currentFace.pattern[memUsageIndex][cpuUsageIndex][i];
             var part = this.currentFace.parts[partNum];
-            if (i == 0) {
+            if (i != 0) {
+                this.addPart(part);
+            } else if (this._cache.faceChanged) {
+                this._cache.faceChanged = false;
+                this.partsBackground.removeObjects();
                 this.partsBackground.src = this.faceDefDir + "\\" + part.filename;
                 this.partsBackground.style.position = "absolute";
                 this.partsBackground.style.top = part['pos y']+"px";
                 this.partsBackground.style.left = part['pos x']+"px";
-            } else {
-                this.addPart(part);
             }
         }
         if (marker1) {
@@ -321,18 +358,20 @@ _VistaFace.prototype = {
         
         var cpuUsage = this.faceCPUIndexUsageProc();
         var memUsage = this.faceMemIndexUsageProc();
-        this.debugPrint((this.isPowerLineStatusChanged ? "!1," : "") +
-                (this.isSignalStrengthChanged ? "!2," : "") + 
-                (System.Machine.PowerStatus.isPowerLineConnected ? "AC," : "") + 
-                "C:"+ cpuUsage +
-                ",M:" + memUsage +
-                ",B:" + this.getBatteryRemaining() +
-                ",W:" + this.getWlanSignalStrength() +
-                ",F[C]:" + this.getFaceCPUIndexByUsage(cpuUsage) +
-                ",F[M]:" + this.getFaceMemIndexByUsage(memUsage) +
-                ",S[C]:" + this.settings.cpuUsage +
-                ",S[M]:" + this.settings.memUsage +
-            "");
+        if (DEBUG) {
+            this.debugPrint((this.isPowerLineStatusChanged ? "!1," : "") +
+                    (this.isSignalStrengthChanged ? "!2," : "") + 
+                    (System.Machine.PowerStatus.isPowerLineConnected ? "AC," : "") + 
+                    "C:"+ cpuUsage +
+                    ",M:" + memUsage +
+                    ",B:" + this.getBatteryRemaining() +
+                    ",W:" + this.getWlanSignalStrength() +
+                    ",F[C]:" + this.getFaceCPUIndexByUsage(cpuUsage) +
+                    ",F[M]:" + this.getFaceMemIndexByUsage(memUsage) +
+                    ",S[C]:" + this.settings.cpuUsage +
+                    ",S[M]:" + this.settings.memUsage +
+                "");
+         }
         
         this.switchPattern(
              this.getFaceCPUIndexByUsage(cpuUsage) // cpu
