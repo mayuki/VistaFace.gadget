@@ -22,7 +22,7 @@ function _VistaFace() {
     // cache settings
     this._cache = {
         imgObjs: [],
-        faceChanged : true,
+        backgroundPartFilename : '',
         cpuUsageIndex : -1,
         memUsageIndex : -1,
         marker1 : -1,
@@ -177,7 +177,7 @@ _VistaFace.prototype = {
     , loadFaceDef : function (name) {
         this.debugPrint("loadFaceDef: "+name);
         this.faceDefDir = name;
-        this._cache.faceChanged = true;
+        this._cache.backgroundPartFilename = '';
         this._cache.imgObjs = [];
         return this.loadFaceDefPlist(name);
     }
@@ -233,8 +233,10 @@ _VistaFace.prototype = {
             var part = this.currentFace.parts[partNum];
             if (i != 0) {
                 this.addPart(part);
-            } else if (this._cache.faceChanged) {
-                this._cache.faceChanged = false;
+            } else if (this._cache.backgroundPartFilename != part.filename) {
+                // ”wŒi‚ª•Ï‚í‚é‚Æ‚«‚Í‘S•”“ü‚ê‘Ö‚¦
+                this._cache.backgroundPartFilename = part.filename;
+                this._cache.imgObjs = [];
                 this.partsBackground.removeObjects();
                 this.partsBackground.src = this.faceDefDir + "\\" + part.filename;
                 this.partsBackground.style.position = "absolute";
