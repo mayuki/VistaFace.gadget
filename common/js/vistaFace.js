@@ -40,7 +40,7 @@ function _VistaFace() {
 };
 
 _VistaFace.prototype = {
-    main : function () {
+    onLoad : function () {
         try {
             this.initialize();
             
@@ -52,6 +52,15 @@ _VistaFace.prototype = {
         } catch (e) {
             this.mainFrame.innerText = e.message;
         }
+    }
+
+    , onUnload : function () {
+        this._cache.imgObjs = null;
+        this._cache.backgroundPartFilename = null;
+        this._cache.cpuUsageIndex = null;
+        this._cache.memUsageIndex = null;
+        this._cache.marker1 = null;
+        this._cache.marker2 = null;
     }
     
     , debugPrint : function (s) {
