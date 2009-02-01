@@ -11,17 +11,18 @@
     <script type="text/javascript" src="common/js/messageBoxBridge.js"></script>
     <script type="text/javascript" src="common/js/locale.js"></script>
     <script type="text/javascript" src="common/js/vistaFace.js"></script>
+    <!--script type="text/javascript" src="common/js/gadgetDebugHelper.js"></script-->
 </head>
 
 <body
-    onload="VistaFace.onLoad();"
-    onunload="VistaFace.onUnload();"
+    onload     ="VistaFace.onLoad();"
+    onunload   ="VistaFace.onUnload();"
     ondragenter="VistaFace.onDragEnter();"
     ondragover ="VistaFace.onDragOver();"
     ondrop     ="VistaFace.onDrop();"
 >
 <div id="gadgetMainFrame">
-    <g:background id="partsBackground" />
+    <g:background id="partsBackground" style="position:absolute;top:0;left:0;width:128px;height:128px;background-color:transparent;" />
     
     <div id="partsContainer">
     </div>

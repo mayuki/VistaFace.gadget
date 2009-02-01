@@ -20,9 +20,9 @@
   </icons>
   <hosts>
     <host name="sidebar">
-      <base type="HTML" apiVersion="1.0.0" src="gadget.html"/>
+      <base type="html" apiVersion="1.0.0" src="gadget.html"/>
       <permissions>Full</permissions>
-      <platform minPlatformVersion="0.3"/>
+      <platform minPlatformVersion="1.0"/>
       <defaultImage src="common/images/icon.png"/>
     </host>
   </hosts>
