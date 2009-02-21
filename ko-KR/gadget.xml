@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<gadget>
+  <name>VistaFace</name>
+  <namespace>
+    Misuzilla.Gadgets
+  </namespace>
+  <version>
+    1.4.0.1
+  </version>
+  <author name="Mayuki Sawatari">
+    <info url="http://www.misuzilla.org/dist/gadgets/vistaface/" text="VistaFace - Misuzilla.org"/>
+    <logo src="common/images/authorLogoIcon.png"/>
+  </author>
+  <copyright>
+    (번역 시노루) © 2009
+  </copyright>
+  <description>케릭터의 얼굴 표정을 통해 컴퓨터의 상황을 표현합니다.</description>
+  <icons>
+    <icon height="128" width="128" src="common/images/icon.png"/>
+  </icons>
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0.0" src="gadget.html"/>
+      <permissions>Full</permissions>
+      <platform minPlatformVersion="0.3"/>
+      <defaultImage src="common/images/icon.png"/>
+    </host>
+  </hosts>
+</gadget>
